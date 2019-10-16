@@ -1,0 +1,49 @@
+1.IO流：
+	//或者\是java的文件分隔符，因为/是转义字符
+	File f = new File("C:\\Users\\xuye\\Desktop\\java\\test.java");//里面的字符串可拼接
+	访问文件名：
+		System.out.println(f.getName());//访问文件名，获取当前文件夹或者文件的名称
+		System.out.println(f.getPath());//获取当前路径
+		System.out.println(f.getAbsolutePath());//获取相对路径的绝对路径
+		System.out.println(f.getAbsoluteFile());//返回一个用当前的文件的绝对路径构建的File对象，和f差不多
+		f.getParent();//返回父级路径
+		f.renameTo(new File("C:\\Users\\xuye\\Desktop\\java\\test1.java"));//文件或者文件夹重命名
+	文件检测：
+		f.exists();//检测文件是否存在
+		f.canRead();//检测文件是否可读
+		f.canWrite();//检测文件是否可写
+		f.isFile();//检测判断当前对象是否是文件
+		f.isDirectory();//检测判断当前对象是否是文件夹
+		f.lastModified();//获取文件的最后修改时间，返回毫秒数
+		f.length();//返回文件的长度
+	文件操作相关：
+		File f1 = new File("C:\\Users\\xuye\\Desktop\\java\\testa.java");
+		try{f1.createNewFile();}catch(Exception e){System.out.println(e.getMessage());}//如果f对象的文件没有会创建一个文件
+		f.delete();//删除文件
+		try{f1.createNewFile();}catch(Exception e){e.printStackTrace();}//如果f对象的文件没有会创建一个文件
+		
+		File f2 = new File("C:\\Users\\xuye\\Desktop\\java\\test");
+		f1.mkdir();//创建单层目录,双斜杠好像无效
+		File f3 = new File("C:/Users/xuye/Desktop/java/test2");
+		f3.mkdir();
+		f3.mkdirs();//创建多层目录，在new的时候写好多层目录就行
+		String [] f33 = f3.list();//将该目录下的文件的子集
+		File f4 = f3.listFiles();//返回的是当前文件夹的自己的file对象
+2.遍历文件夹用递归遍历
+	public void test(File file) {
+		if(file.isFile()) {
+			System.out.println(file.getAbsolutePath()+"这是文件");
+		}else {
+			System.out.println(file.getAbsolutePath()+"这是文件夹");
+			File[] fs = file.listFiles();
+			if(file != null && file.length()>0){
+				for(File ff : fs) {
+					test(ff);
+				}
+			}
+		}
+	}
+3.流的分类
+	按操作数据单位分：字节流（8bit） 字符流（16bit）
+	按数据流的流向：输入流，输出流
+	按流的角色分：节点流，处理流

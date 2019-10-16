@@ -1,0 +1,10 @@
+1.集合：里面只能存放对象（基本数据类型会自动转化为对象，比如int类型自动转化为integer）
+		集合存放的是多个对象的引用，对象本身还是存放在堆内存中
+		集合可以存放多个不同类型且不限数量的数据
+		集合分为三大体系：Set(无序不可重复的集合)，list(有序可重复的集合)，Map(具有映射关系的集合)
+2.HashSet是Set接口的典型实现：不能保证元素排列顺序(根据hashCode值存放在哪给位置)，不可重复（看hashCode值是否相等）,HashSet不是线程安全的，可以存NULL
+	jdk1.5后有泛型（指定数据类型），Set<String> set = new HashSet<String>();只能存String类型
+	set.add()添加元素，set.remove()删除元素，set.clear()清空集合，set.size()检测集合中元素的数量，set.contains()检测元素是否存在，Iterator it = set.iterator(); it.hasNext() it.next():迭代器遍历集合，还可以用for each迭代
+3.TreeSet与Set的区别，会在集合处于排序状态（自然排序和定制排序），是Sortedet接口的实现类
+	自然排序：调用集合元素的compare()方法比较元素的大小，按升序排列，必须放入同样类型的数据，可以用泛型限制
+	定制排序：重写compare（）方法。

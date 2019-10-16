@@ -1,0 +1,7 @@
+1.String对象的创建
+	字面量创建String对象，String s1="a",直接在堆中的常量池添加"a"对象，返回引用地址给s1对象，如果再创建一个"a"会把已存在"a"对象的地址返回，不会重新创建
+	new创建String对象，String s3=new String("aa"),在常量池中添加“a”对象，在堆中创建值为“aa”的对象,返回指向堆中该对象的引用
+					   String s4=new String("aa"),常量池检测到有aa不会添加了,但会创建值为“aa”的对象并返回指向该对象的引用
+	String s5="x"+"y";经过JVM优化，直接在常量池中添加xy对象
+	String s6=new String("1")+new String("1")+new String("1");通过StringBuilder！！实现，常量池中添加“1”，“2”对象，在堆中创建值为112的对象并返回该对象的引用	
+2.

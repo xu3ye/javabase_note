@@ -1,0 +1,106 @@
+1.处理流之一：缓冲流，在一定程度上绕过硬盘的限制,基于内存的，先把数据缓冲到内存中，在内存中进行IO操作,比基于硬盘的io操作快75000多倍
+	BufferedInputStream      BufferedOutputStream
+	BufferedReader			 BufferedWriter          Buffere和File意义对应
+2.缓冲字节输入流：将文件字节输入流放到缓冲字节流对象，其他操作和文件字节流操作一样
+		如：BufferedInputStream bis = new BufferedInputStream(new FileInputStream(str1));
+3.处理流之二：转化流，提供在字节流转化为字符流 
+	FileInputStream fs = new FileInputStream(str);
+		InputStreamReader Isr = new InputStreamReader(fs,"GBK");//参数1是字节流，参数2是编码方式
+	OutputStreamWriter osr = new OutputStreamWriter(new FileOutputStream(str),"GBK");//参数2可省略
+	转化设置的字符集编码要和读取饿文件一致，不然会乱码
+	用于，字节流中的数据都是字符时转化后进行处理，速度会快很多
+4，处理流之三：标准输入输出流
+	简单的输入流：
+	public static void testSystemIn()throws Exception{
+		//创建一个接收键盘数据的输入流
+		InputStreamReader isr = new InputStreamReader(System.in);
+		//把输入流放到缓冲流中
+		BufferedReader br = new BufferedReader(isr);
+		String str = null;//临时接收数据的字符串
+		while( (str = br.readLine()) != null ) {
+			System.out.println(str);//readLine()读取一行数据
+		}
+		br.close();
+		isr.close();
+	}
+	将输入数据写入文件中：
+	public static void testSystem_TXT()throws Exception{
+		InputStreamReader is = new InputStreamReader(System.in);
+		BufferedReader br = new BufferedReader(is);
+		BufferedWriter bw = new BufferedWriter(new FileWriter("C:\\Users\\xuye\\Desktop\\java\\test\\test3.txt"));
+		String str = "";
+		while((str = br.readLine())!=null) {
+			if(str.equals("over")){
+				break;
+			}
+			bw.write(str);
+		}
+		bw.flush();
+		bw.close();
+		br.close();
+		is.close();
+	}
+5.处理流之四：打印流，PrintStream(字节打印流），PrintWriter(字符打印流)
+		PrintStream和PrintWriter输出不会抛出异常，有自动flush功能，System.out返回的是PrintStream
+6.处理流之五：数据流，DatainputStream(写),DataOutputStream(读)
+	数据输出流写到文件中是乱码的，不能直接获取，需要数据输入流来读取，且输入输出时写的数据类型要一致，就是写入时是writeDouble,读出的时就必须是readDouble,否则会乱码
+	//从文件读
+		DataInputStream in = new DataInputStream(new FileInputStream("C:\\Users\\xuye\\Desktop\\java\\test\\test3.txt"));
+		in.readDouble();
+	//向文件写
+		DataOutputStream dos = new DataOutputStream(new FileOutputStream("C:\\Users\\xuye\\Desktop\\java\\test\\test3.txt"));
+		dos.writeDouble(2d);
+7.处理流之六：对象流,ObjectInputStream,ObjectOutputStream,用于存储和读取对象的处理流
+	保存对象到硬盘(对象的持久化)和对象的网络传输
+	该类必须实现两个接口之一:Serializable(常用)，Externalizable.
+	序列化：用ObjectOutputStream类将一个java对象写入IO流中,调用writeObject方法
+	反序列化：用ObjectInputStream类从IO流中恢复该java对象，调用readObject方法
+	static和transient(这个被修饰的字段仅存于调用者的内存，而不会写到磁盘里持久化)修饰的成员变量是不能被序列化的，因为不是对象
+	序列化和反序列化使用的类要严格一致，不一样就会报错
+	序列化：
+		public static void Serializable_test() throws Exception{
+		//序列化
+		Person p = new Person();
+		p.age=10;
+		p.name="张三";
+		ObjectOutputStream oos= new ObjectOutputStream(new FileOutputStream("C:\\Users\\xuye\\Desktop\\java\\test\\test3.txt"));
+		oos.writeObject(p);
+		oos.flush();
+		oos.close();	
+	}
+	反序列化：
+		public static void Serializable_test1()throws Exception{
+		//反序列化
+		ObjectInputStream ois = new ObjectInputStream(new FileInputStream("C:\\Users\\xuye\\Desktop\\java\\test\\test3.txt"));
+		Object obj = ois.readObject();
+		Person p = (Person)obj;
+		System.out.println(p.name);
+		System.out.println(p.age);
+		ois.close();
+	}
+8.随机读写：RandomAccessFile(参数1,参数2);
+	读：
+		public static void RandomAccessFile_reade() throws Exception{
+		//参数1是读写的文件的路径，参数2是指定访问模式
+		//r:以只读方式打开
+		//rw:打开以便读取和写入
+		//rwd:打开以便读取和写入,同步文件内容的更新
+		//rws:打开以便读取和写入,同步文件内容的更新和元数据的更新
+		RandomAccessFile raf = new RandomAccessFile("C:\\Users\\xuye\\Desktop\\java\\test\\test5.txt","r");
+		raf.seek(0);//设置读取文件的起始点，就是文件任意位置的读取
+		byte by[] = new byte[1024];
+		int len = 0;
+		while( (len = raf.read(by)) != -1) {
+			System.out.println(new String(by,0,len));
+		}
+		raf.close();
+	}
+	写：
+		public static void RandomAccessFile_write() throws Exception{
+		//在文件开头和中间位置开始写，会覆盖等长度的字符
+		RandomAccessFile rsf = new RandomAccessFile("C:\\Users\\xuye\\Desktop\\java\\test\\test5.txt","rw");
+		rsf.seek(0);
+		//rsf.seek(rsf.length());//在末尾追加
+		rsf.write("壁画".getBytes());
+		rsf.close();
+	}

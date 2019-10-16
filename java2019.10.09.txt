@@ -1,0 +1,39 @@
+1.List:实现方法：ArrayList
+	可重复，get()方法可以通过索引来访问元素，add(1,"a")可以在指定位置插入数据，addAll()插入集合，indexOf()获取元素第一次出现的下标，lastindexOf()获取元素最后一次出现的下标，remove(),set(1,"ff")把这个下标的值修改，subList(1,4)截取1到4的元素（大于等于1小于4，左闭右开），size()长度
+	List方法都要索引下标
+	vector和ArrayList使用方法差不多，而且线程安全，但不推荐使用
+2.Map:实现方法HashMap和Hashtable（不建议使用）
+	用put(key,value)添加数据,get()根据key取值，remove()根据key删除键值
+	TreeMap和TreeSet性质差不多
+3.Collections是一个操作Set,List,Map等集合的工具类
+	Collection.reverse(List):反转List中的元素顺序
+	Collection.shuffle(List)：对List集合元素进行随机排序
+	Collection.sort(List)：根据元素的自然顺序对指定List集合元素按升序排序
+	Collection.sort(List,comparator):根据指定的Comparator产生的顺序对List集合元素进行排序
+	Collection.swap(List,int,int)：将指定List集合中的i处元素和j处元素进行交换
+	未完....
+4.java的泛型只会在编译阶段有效，不会进入运行阶段
+	自定义泛型类 class A<T>{}
+	自定义泛型接口 interface B<T>{T 方法名(T t);}，
+		在实现接口时,未定义泛型类型的时候，声明类时需要将泛型的声明一起加到类中 class B1<T> implements B<T>{}
+		如果已经确定参数类型，定义的时候不需要指定泛型类型，class B2 implements B<String>{}
+	泛型不同的引用不能相互赋值
+5.泛型方法：public <T> void test(){}可以在方法中任意位置使用泛型
+	在类中定义的泛型，在普通方法可以使用，在静态方法中不能使用，在调用的时候，传入的是什么类型就把泛型固定成什么类型
+	当不确定集合元素中的具体类型，使用通配符 ？ 表示所有类型
+	有限制的通配符：
+		List <? extends c> list c类及c类的子类
+		List <? super c> list c类及C的父类
+		LIST <? extengds comparable> list 只容许泛型为实现Comparable接口的实现类的引用调用
+6.枚举类：关键字（enum）
+	private修饰构造器
+	属性使用private final修饰
+	该类的所有实例都使用public static final修饰
+	枚举中直接写例如a();是调用该类的私有构造方法
+	枚举类中的每个枚举都是单例模式
+	枚举可以实现接口
+7.注解（Annotation）：可以在编译，类加载，运行时被读取，并执行相应的处理，在不改变原有逻辑的情况下嵌入一些补充信息，可以像修饰符一样被使用
+	@Override:重写
+	@Deprecated:过时
+	@SuppressWarnings:抑制编译器警告
+	自定义注解：略

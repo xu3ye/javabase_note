@@ -1,0 +1,47 @@
+1.反射：Reflection,jvm已经加载过这个类，可以通过类名加载类中所有信息
+2.Class类
+	一个类在jvm中只会有一个class对象
+	一个class对象对应的是加载到jvm中的一个.class文件
+	通过class可以得到类的完整结构
+	public final Class getClass()此方法将被所有子类继承，返回类型是一个Class类，是java反射的源头
+	通过类的getClass()方法，获取相应实例对象的类的class实例
+		Class c2 = p.getClass();
+	通过类名.class指定类的class实例
+		Class c1 = Person.class;
+	通过Class的静态方法forName(String className)获取一个类的Class实例，className是类的全路径(包名.类名)
+		Class c0 = Class.forName("reflection_test.Person");//常用，需要捕获异常
+		ClassLoader//不常用
+3.通过反射调用类的完整结构
+	父类：getSuperclass()
+		Class clazz = Class.forName("reflection_test.Test");//注意需要抛出异常
+			Class c = clazz.getSuperclass();
+			System.out.println("父类："+c);
+	接口：getInterfaces()//返回的是数组类型
+		Class[] c1 = clazz.getInterfaces();
+			for(Class c0 : c1) {
+				System.out.println("全部接口" + c0);
+			}
+	构造器：Constructor
+		getConstructor()://取得公有方法构造
+			clazz = Class.forName("reflection_test.Test");//注意需要抛出异常
+			Constructor []cs = clazz.getConstructors();
+			for(Constructor c :cs) {
+				System.out.println("公有方法名"+c.getName()+"修饰符类型"+c.getModifiers());//方法名和修饰符类型（1是public,2是private)
+				Class []cc = c.getParameterTypes();//构造方法的参数类型，返回数组类型，有几个参数，数组元素就有几个
+				for(Class ccc :cc) {
+					System.out.println("参数类型" + ccc);
+				}
+			}
+		getDeclaredConstructors()：//取得全部方法构造
+			clazz = Class.forName("reflection_test.Test");//注意需要抛出异常
+			Constructor[] css = clazz.getDeclaredConstructors();
+			for(Constructor c : css) {
+				System.out.println("全部方法名"+c.getName()+"修饰符类型"+c.getModifiers());//方法名和修饰符类型（1是public,2是private)
+				Class []cc = c.getParameterTypes();//构造方法的参数类型，返回数组类型，有几个参数，数组元素就有几个
+				for(Class ccc :cc) {
+					System.out.println("参数类型" + ccc);
+				}
+			}
+	未完...反射没听懂没懂意思
+	
+	
